@@ -9,6 +9,7 @@ const getTodos = function() {
 	return JSON.parse(localStorage.getItem('todos')) || localStorage.setItem('todos', JSON.stringify([]))
 }
 
+
 const renderTodos = function() {
 	const todos = getTodos()
 	todoList.innerHTML = ``
@@ -31,8 +32,7 @@ const renderTodos = function() {
 	})
 }
 
-const addTodo = function() {
-	event.preventDefault()
+const addTodo = function(e) {
 	const todos = getTodos()
 
 	todos.push({
@@ -42,6 +42,7 @@ const addTodo = function() {
 
 	localStorage.setItem('todos', JSON.stringify(todos))
 	renderTodos()
+	e.target.reset()
 }
 
 const changeStatus = function(id) {
@@ -74,4 +75,11 @@ todoContainer.addEventListener('click', function(e) {
 	}
 })
 
-form.addEventListener('submit', addTodo)
+form.addEventListener('submit', function(e) {
+	e.preventDefault()
+	if(input.value.length <= 0) {
+		alert('Напишите задачу')
+	} else {
+		addTodo(e)
+	}
+})
